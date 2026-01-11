@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import { createContext } from "./trpc/context.ts";
 import { appRouter } from "./trpc/routers";
-import { createContext } from "./trpc/context";
 
 const app = express();
 
