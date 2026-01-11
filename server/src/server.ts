@@ -1,14 +1,15 @@
 import express from "express";
 import cors from "cors";
+import morgan from "morgan";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "./trpc/routers";
 import { createContext } from "./trpc/context";
-import { create } from "domain";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan("combined"));
 
 app.use(
   "/trpc",
