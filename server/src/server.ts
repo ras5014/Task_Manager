@@ -4,6 +4,7 @@ import morgan from "morgan";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { createContext } from "./trpc/context.ts";
 import { appRouter } from "./trpc/routers";
+import "dotenv/config";
 
 const app = express();
 

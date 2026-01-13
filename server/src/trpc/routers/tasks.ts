@@ -1,16 +1,18 @@
-import { t } from "../trpc";
-import { prisma } from "../../db/prisma";
+import { t } from "../trpc.ts";
+import { prisma } from "../../db/prisma.ts";
 import {
   CreateTaskSchema,
   DeleteTaskSchema,
   UpdateTaskSchema,
-} from "../../schemas/task.schema";
-import { handlePrismaError } from "../../utils/errorHandler";
+} from "../../schemas/task.schema.ts";
+import { handlePrismaError } from "../../utils/errorHandler.ts";
+import { protectedProcedure } from "../middlewares.ts";
 
 export const tasksRouter = t.router({
-  getTasks: t.procedure.query(async () => {
+  getTasks: protectedProcedure.query(async ({ ctx }) => {
     try {
       return prisma.task.findMany({
+        where: { userId: ctx.userId },
         orderBy: { createdAt: "desc" },
       });
     } catch (error) {
@@ -18,19 +20,22 @@ export const tasksRouter = t.router({
     }
   }),
 
-  createTask: t.procedure
+  createTask: protectedProcedure
     .input(CreateTaskSchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
         return prisma.task.create({
-          data: input,
+          data: {
+            ...input,
+            userId: ctx.userId!,
+          },
         });
       } catch (error) {
         handlePrismaError(error, "createTask");
       }
     }),
 
-  updateTask: t.procedure
+  updateTask: protectedProcedure
     .input(UpdateTaskSchema)
     .mutation(async ({ input }) => {
       try {
@@ -44,7 +49,7 @@ export const tasksRouter = t.router({
       }
     }),
 
-  deleteTask: t.procedure
+  deleteTask: protectedProcedure
     .input(DeleteTaskSchema)
     .mutation(async ({ input }) => {
       try {
