@@ -39,7 +39,7 @@ export const authRouter = t.router({
       });
 
       if (!user) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
+        throw new TRPCError({ message: "User not found", code: "NOT_FOUND" });
       }
 
       const ok = await bcrypt.compare(password, user.password);

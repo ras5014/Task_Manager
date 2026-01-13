@@ -2,6 +2,11 @@ import { TRPCError } from "@trpc/server";
 import { Prisma } from "../../prisma/generated/prisma/client";
 
 export function handlePrismaError(error: unknown, operation: string) {
+  // If it's already a TRPCError, re-throw it as-is
+  if (error instanceof TRPCError) {
+    throw error;
+  }
+
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     switch (error.code) {
       case "P2025":
@@ -16,7 +21,7 @@ export function handlePrismaError(error: unknown, operation: string) {
         });
       case "P1001":
         throw new TRPCError({
-          code: "UNAVAILABLE",
+          code: "SERVICE_UNAVAILABLE",
           message: `Database connection error during ${operation}`,
         });
       default:

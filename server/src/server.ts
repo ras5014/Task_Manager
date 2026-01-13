@@ -5,10 +5,6 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { createContext } from "./trpc/context.ts";
 import { prisma } from "./db/prisma.ts";
 import { appRouter } from "./trpc/routers/index.ts";
-import { config } from "dotenv";
-
-// Load from .env.local specifically
-config({ path: ".env.local" });
 
 const app = express();
 
