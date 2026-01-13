@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router";
-import { createTRPCClient, trpc } from "./trpc.ts";
+import { createTRPCClient, trpc } from "./utils/trpc.ts";
 
 const queryClient = new QueryClient();
 const trpcClient = createTRPCClient();

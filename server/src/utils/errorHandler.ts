@@ -14,6 +14,11 @@ export function handlePrismaError(error: unknown, operation: string) {
           code: "CONFLICT",
           message: `Unique constraint violation in ${operation}`,
         });
+      case "P1001":
+        throw new TRPCError({
+          code: "UNAVAILABLE",
+          message: `Database connection error during ${operation}`,
+        });
       default:
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",

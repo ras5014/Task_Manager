@@ -1,5 +1,6 @@
-import { Box, Container, TextField, Button, Typography, Paper, Link } from "@mui/material";
+import { Box, Container, TextField, Button, Typography, Paper, Link, CircularProgress } from "@mui/material";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useLogin } from "../hooks/useLogin";
 
 interface LoginFormInputs {
   email: string
@@ -14,8 +15,15 @@ export default function Login() {
     formState: { errors }
   } = useForm<LoginFormInputs>();
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log(data);
+  const { mutateAsync, isPending } = useLogin();
+
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    const { email, password } = data;
+    try {
+      await mutateAsync({ email, password });
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   }
 
   return (
@@ -55,8 +63,19 @@ export default function Login() {
               helperText={errors.password ? errors.password.message : ""}
             />
 
-            <Button variant="contained" color="primary" fullWidth type="submit" sx={{ mt: 2, py: 1.5 }}>
-              Sign In
+            <Button
+              disabled={isPending}
+              variant="contained"
+              color="primary"
+              fullWidth
+              type="submit"
+              sx={{ mt: 2, py: 1.5, position: "relative" }}
+            >
+              {isPending ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </Box>
 
