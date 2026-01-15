@@ -6,6 +6,8 @@ import { createContext } from "./trpc/context.ts";
 import { prisma } from "./db/prisma.ts";
 import { appRouter } from "./trpc/routers/index.ts";
 
+import "dotenv/config";
+
 const app = express();
 
 app.use(cors());

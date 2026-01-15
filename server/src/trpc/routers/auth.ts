@@ -12,11 +12,12 @@ export const authRouter = t.router({
     .input(RegisterSchema)
     .mutation(async ({ input }) => {
       try {
-        const { email, password } = input;
+        const { fullName, email, password } = input;
         const hash = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
           data: {
+            fullName: fullName,
             email: email,
             password: hash,
           },
@@ -26,7 +27,7 @@ export const authRouter = t.router({
 
         return { token };
       } catch (error) {
-        handlePrismaError(error, "register");
+        throw handlePrismaError(error, "register");
       }
     }),
 
@@ -52,7 +53,7 @@ export const authRouter = t.router({
 
       return { token };
     } catch (error) {
-      handlePrismaError(error, "login");
+      throw handlePrismaError(error, "login");
     }
   }),
 });
