@@ -27,7 +27,7 @@ export const authRouter = t.router({
 
         return { token };
       } catch (error) {
-        throw handlePrismaError(error, "register");
+        handlePrismaError(error, "register");
       }
     }),
 
@@ -53,7 +53,7 @@ export const authRouter = t.router({
 
       return { token };
     } catch (error) {
-      throw handlePrismaError(error, "login");
+      handlePrismaError(error, "login");
     }
   }),
 });
