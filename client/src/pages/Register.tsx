@@ -1,6 +1,8 @@
 import { Box, Container, TextField, Button, Typography, Paper, Link, CircularProgress } from "@mui/material";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useRegister } from "../hooks/useRegister";
+import { useRegister } from "../hooks/register.hook";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 interface RegisterFormInputs {
     fullName: string
@@ -10,6 +12,8 @@ interface RegisterFormInputs {
 }
 
 export default function Register() {
+
+    const navigate = useNavigate();
 
     const {
         register,
@@ -23,7 +27,10 @@ export default function Register() {
         const { fullName, email, password } = data;
         try {
             await mutateAsync({ fullName, email, password });
+            toast.success("Registration successful!");
+            navigate("/login");
         } catch (error) {
+            toast.error("Registration failed. Please try again.");
             console.error("Registration failed:", error);
         }
     }

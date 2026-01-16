@@ -1,6 +1,8 @@
 import { Box, Container, TextField, Button, Typography, Paper, Link, CircularProgress } from "@mui/material";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useLogin } from "../hooks/useLogin";
+import { useLogin } from "../hooks/login.hook";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 interface LoginFormInputs {
   email: string
@@ -8,6 +10,8 @@ interface LoginFormInputs {
 }
 
 export default function Login() {
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -21,7 +25,10 @@ export default function Login() {
     const { email, password } = data;
     try {
       await mutateAsync({ email, password });
+      toast.success("Login successful!");
+      navigate("/");
     } catch (error) {
+      toast.error("Login failed. Please try again.");
       console.error("Login failed:", error);
     }
   }
