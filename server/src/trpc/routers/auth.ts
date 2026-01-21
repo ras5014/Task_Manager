@@ -12,11 +12,12 @@ export const authRouter = t.router({
     .input(RegisterSchema)
     .mutation(async ({ input }) => {
       try {
-        const { email, password } = input;
+        const { fullName, email, password } = input;
         const hash = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
           data: {
+            fullName: fullName,
             email: email,
             password: hash,
           },
@@ -39,7 +40,7 @@ export const authRouter = t.router({
       });
 
       if (!user) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
+        throw new TRPCError({ message: "User not found", code: "NOT_FOUND" });
       }
 
       const ok = await bcrypt.compare(password, user.password);
