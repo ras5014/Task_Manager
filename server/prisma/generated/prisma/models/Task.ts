@@ -28,7 +28,7 @@ export type TaskMinAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  completed: boolean | null
+  isCompleted: boolean | null
   createdAt: Date | null
   userId: string | null
 }
@@ -37,7 +37,7 @@ export type TaskMaxAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  completed: boolean | null
+  isCompleted: boolean | null
   createdAt: Date | null
   userId: string | null
 }
@@ -46,7 +46,7 @@ export type TaskCountAggregateOutputType = {
   id: number
   title: number
   description: number
-  completed: number
+  isCompleted: number
   createdAt: number
   userId: number
   _all: number
@@ -57,7 +57,7 @@ export type TaskMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  completed?: true
+  isCompleted?: true
   createdAt?: true
   userId?: true
 }
@@ -66,7 +66,7 @@ export type TaskMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  completed?: true
+  isCompleted?: true
   createdAt?: true
   userId?: true
 }
@@ -75,7 +75,7 @@ export type TaskCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  completed?: true
+  isCompleted?: true
   createdAt?: true
   userId?: true
   _all?: true
@@ -157,7 +157,7 @@ export type TaskGroupByOutputType = {
   id: string
   title: string
   description: string | null
-  completed: boolean
+  isCompleted: boolean
   createdAt: Date
   userId: string | null
   _count: TaskCountAggregateOutputType | null
@@ -187,7 +187,7 @@ export type TaskWhereInput = {
   id?: Prisma.StringFilter<"Task"> | string
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
-  completed?: Prisma.BoolFilter<"Task"> | boolean
+  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   userId?: Prisma.StringNullableFilter<"Task"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -197,7 +197,7 @@ export type TaskOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  completed?: Prisma.SortOrder
+  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -210,7 +210,7 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TaskWhereInput | Prisma.TaskWhereInput[]
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
-  completed?: Prisma.BoolFilter<"Task"> | boolean
+  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   userId?: Prisma.StringNullableFilter<"Task"> | string | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -220,7 +220,7 @@ export type TaskOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  completed?: Prisma.SortOrder
+  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TaskCountOrderByAggregateInput
@@ -235,7 +235,7 @@ export type TaskScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Task"> | string
   title?: Prisma.StringWithAggregatesFilter<"Task"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
-  completed?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
+  isCompleted?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
   userId?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
 }
@@ -244,7 +244,7 @@ export type TaskCreateInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutTasksInput
 }
@@ -253,7 +253,7 @@ export type TaskUncheckedCreateInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
   userId?: string | null
 }
@@ -262,7 +262,7 @@ export type TaskUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutTasksNestedInput
 }
@@ -271,7 +271,7 @@ export type TaskUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -280,7 +280,7 @@ export type TaskCreateManyInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
   userId?: string | null
 }
@@ -289,7 +289,7 @@ export type TaskUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -297,7 +297,7 @@ export type TaskUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -316,7 +316,7 @@ export type TaskCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  completed?: Prisma.SortOrder
+  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -325,7 +325,7 @@ export type TaskMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  completed?: Prisma.SortOrder
+  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -334,7 +334,7 @@ export type TaskMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  completed?: Prisma.SortOrder
+  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -393,7 +393,7 @@ export type TaskCreateWithoutUserInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
 }
 
@@ -401,7 +401,7 @@ export type TaskUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
 }
 
@@ -438,7 +438,7 @@ export type TaskScalarWhereInput = {
   id?: Prisma.StringFilter<"Task"> | string
   title?: Prisma.StringFilter<"Task"> | string
   description?: Prisma.StringNullableFilter<"Task"> | string | null
-  completed?: Prisma.BoolFilter<"Task"> | boolean
+  isCompleted?: Prisma.BoolFilter<"Task"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   userId?: Prisma.StringNullableFilter<"Task"> | string | null
 }
@@ -447,7 +447,7 @@ export type TaskCreateManyUserInput = {
   id?: string
   title: string
   description?: string | null
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: Date | string
 }
 
@@ -455,7 +455,7 @@ export type TaskUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -463,7 +463,7 @@ export type TaskUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -471,7 +471,7 @@ export type TaskUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -481,7 +481,7 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   title?: boolean
   description?: boolean
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.Task$userArgs<ExtArgs>
@@ -491,7 +491,7 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   description?: boolean
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.Task$userArgs<ExtArgs>
@@ -501,7 +501,7 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   description?: boolean
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.Task$userArgs<ExtArgs>
@@ -511,12 +511,12 @@ export type TaskSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
-  completed?: boolean
+  isCompleted?: boolean
   createdAt?: boolean
   userId?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "completed" | "createdAt" | "userId", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "isCompleted" | "createdAt" | "userId", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Task$userArgs<ExtArgs>
 }
@@ -536,7 +536,7 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     title: string
     description: string | null
-    completed: boolean
+    isCompleted: boolean
     createdAt: Date
     userId: string | null
   }, ExtArgs["result"]["task"]>
@@ -966,7 +966,7 @@ export interface TaskFieldRefs {
   readonly id: Prisma.FieldRef<"Task", 'String'>
   readonly title: Prisma.FieldRef<"Task", 'String'>
   readonly description: Prisma.FieldRef<"Task", 'String'>
-  readonly completed: Prisma.FieldRef<"Task", 'Boolean'>
+  readonly isCompleted: Prisma.FieldRef<"Task", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Task", 'String'>
 }

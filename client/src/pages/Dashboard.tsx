@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useCreateTask, useTasks } from "../hooks/tasks.hook";
+import { useCreateTask, useDeleteTask, useTasks, useUpdateTask } from "../hooks/tasks.hook";
 import toast from "react-hot-toast";
 import {
     Box,
@@ -14,10 +14,20 @@ import {
     Grid,
     AppBar,
     Toolbar,
-    IconButton
+    IconButton,
+    Checkbox,
+    FormControlLabel,
+    Backdrop,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions
 } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 interface CreateTaskInputs {
     title: string;
@@ -26,6 +36,8 @@ interface CreateTaskInputs {
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
 
     const {
         register,
@@ -34,12 +46,14 @@ export default function Dashboard() {
         reset
     } = useForm<CreateTaskInputs>();
 
-    const { mutateAsync, isPending } = useCreateTask();
+    const createTask = useCreateTask();
+    const updateTask = useUpdateTask();
+    const deleteTask = useDeleteTask();
 
     const onSubmit = async (data: CreateTaskInputs) => {
         try {
             const { title, description } = data;
-            await mutateAsync({ title, description })
+            await createTask.mutateAsync({ title, description })
             toast.success("Task created successfully!");
             reset(); // Clear the form after successful submission
         } catch (error) {
@@ -47,6 +61,19 @@ export default function Dashboard() {
             console.error("Task creation failed:", error);
         }
     }
+
+    const handleDeleteClick = (taskId: number) => {
+        setTaskToDelete(taskId);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (taskToDelete) {
+            await deleteTask.mutateAsync({ id: taskToDelete });
+            setDeleteDialogOpen(false);
+            setTaskToDelete(null);
+        }
+    };
 
     const { data: tasks, isLoading, isError } = useTasks();
 
@@ -58,6 +85,12 @@ export default function Dashboard() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.modal + 1 }}
+                open={deleteTask.isPending || updateTask.isPending}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {/* AppBar */}
             <AppBar position="static">
                 <Toolbar>
@@ -105,14 +138,14 @@ export default function Dashboard() {
                                 />
 
                                 <Button
-                                    disabled={isPending}
+                                    disabled={createTask.isPending}
                                     variant="contained"
                                     color="primary"
                                     fullWidth
                                     type="submit"
                                     sx={{ mt: 2, py: 1.5 }}
                                 >
-                                    {isPending ? (
+                                    {createTask.isPending ? (
                                         <CircularProgress size={24} sx={{ color: "white" }} />
                                     ) : (
                                         "Create Task"
@@ -153,12 +186,41 @@ export default function Dashboard() {
                                         <Grid item xs={12} key={task.id}>
                                             <Card variant="outlined">
                                                 <CardContent>
-                                                    <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
-                                                        {task.title}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {task.description}
-                                                    </Typography>
+                                                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                                                        <FormControlLabel
+                                                            control={<Checkbox />}
+                                                            onClick={async () => {
+                                                                await updateTask.mutateAsync({
+                                                                    id: task.id,
+                                                                    isCompleted: true
+                                                                });
+                                                            }}
+                                                            label=""
+                                                            sx={{ mt: 0.5 }}
+                                                        />
+                                                        <Box sx={{ flex: 1 }}>
+                                                            <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
+                                                                {task.title}
+                                                            </Typography>
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {task.description}
+                                                            </Typography>
+                                                        </Box>
+                                                        <IconButton
+                                                            color="primary"
+                                                            onClick={() => console.log("Edit task:", task.id)}
+                                                            sx={{ mt: 0.5 }}
+                                                        >
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton
+                                                            color="error"
+                                                            onClick={() => handleDeleteClick(task.id)}
+                                                            sx={{ mt: 0.5 }}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Box>
                                                 </CardContent>
                                             </Card>
                                         </Grid>
@@ -169,6 +231,19 @@ export default function Dashboard() {
                     </Grid>
                 </Grid>
             </Container>
+
+            <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+                <DialogTitle>Delete Task</DialogTitle>
+                <DialogContent>
+                    <Typography>Are you sure you want to delete this task?</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     )
 }

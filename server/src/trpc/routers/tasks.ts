@@ -12,7 +12,7 @@ export const tasksRouter = t.router({
   getTasks: protectedProcedure.query(async ({ ctx }) => {
     try {
       return prisma.task.findMany({
-        where: { userId: ctx.userId },
+        where: { userId: ctx.userId, isCompleted: false },
         orderBy: { createdAt: "desc" },
       });
     } catch (error) {
