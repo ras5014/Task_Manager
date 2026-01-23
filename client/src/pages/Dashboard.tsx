@@ -14,7 +14,9 @@ import {
     Grid,
     AppBar,
     Toolbar,
-    IconButton
+    IconButton,
+    Checkbox,
+    FormControlLabel
 } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router";
@@ -153,12 +155,22 @@ export default function Dashboard() {
                                         <Grid item xs={12} key={task.id}>
                                             <Card variant="outlined">
                                                 <CardContent>
-                                                    <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
-                                                        {task.title}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {task.description}
-                                                    </Typography>
+                                                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+                                                        <FormControlLabel
+                                                            control={<Checkbox />}
+                                                            onClick={() => console.log("Task is done!")}
+                                                            label=""
+                                                            sx={{ mt: 0.5 }}
+                                                        />
+                                                        <Box sx={{ flex: 1 }}>
+                                                            <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
+                                                                {task.title}
+                                                            </Typography>
+                                                            <Typography variant="body2" color="text.secondary">
+                                                                {task.description}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
                                                 </CardContent>
                                             </Card>
                                         </Grid>
