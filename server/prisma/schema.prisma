@@ -26,7 +26,7 @@ model Task {
   id          String   @id @default(uuid())
   title       String
   description String?
-  completed   Boolean  @default(false)
+  isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
 
   userId String?
