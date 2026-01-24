@@ -3,13 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRegister } from "../hooks/useRegister";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-
-interface RegisterFormInputs {
-    fullName: string
-    email: string
-    password: string
-    confirmPassword: string
-}
+import type { RegisterFormInputs } from "../../../../../shared/schemas/auth.schema";
 
 export default function Register() {
 

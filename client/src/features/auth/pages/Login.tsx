@@ -4,10 +4,8 @@ import { useLogin } from "../hooks/useLogin";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-interface LoginFormInputs {
-  email: string
-  password: string
-}
+// Import the LoginFormInputs type from the shared schema
+import type { LoginFormInputs } from "../../../../../shared/schemas/auth.schema";
 
 export default function Login() {
 

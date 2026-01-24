@@ -7,3 +7,6 @@ export const RegisterSchema = z.object({
 });
 
 export const LoginSchema = RegisterSchema.omit({ fullName: true });
+
+export type RegisterFormInputs = z.infer<typeof RegisterSchema>;
+export type LoginFormInputs = z.infer<typeof LoginSchema>;

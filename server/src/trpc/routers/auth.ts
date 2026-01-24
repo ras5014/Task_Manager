@@ -1,7 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import { publicProcedure } from "../middlewares.ts";
 import { prisma } from "../../db/prisma.ts";
-import { LoginSchema, RegisterSchema } from "../../schemas/auth.schema.ts";
+import {
+  LoginSchema,
+  RegisterSchema,
+} from "../../../../shared/schemas/auth.schema.ts";
 import { signToken } from "../../utils/authHelpers.ts";
 import { handlePrismaError } from "../../utils/errorHandler.ts";
 import { t } from "../trpc.ts";

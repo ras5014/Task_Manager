@@ -4,7 +4,7 @@ import {
   CreateTaskSchema,
   DeleteTaskSchema,
   UpdateTaskSchema,
-} from "../../schemas/task.schema.ts";
+} from "../../../../shared/schemas/task.schema.ts";
 import { handlePrismaError } from "../../utils/errorHandler.ts";
 import { protectedProcedure } from "../middlewares.ts";
 
