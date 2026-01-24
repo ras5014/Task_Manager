@@ -1,4 +1,4 @@
-import { trpc } from "../utils/trpc";
+import { trpc } from "../../../utils/trpc";
 
 export const useLogin = () => {
   return trpc.auth.login.useMutation({

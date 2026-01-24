@@ -37,7 +37,10 @@ interface CreateTaskInputs {
 export default function Dashboard() {
     const navigate = useNavigate();
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
+    const [taskToDelete, setTaskToDelete] = useState(null);
+    const [editingTask, setEditingTask] = useState(null);
+    const [editTitle, setEditTitle] = useState("");
+    const [editDescription, setEditDescription] = useState("");
 
     const {
         register,
@@ -199,16 +202,64 @@ export default function Dashboard() {
                                                             sx={{ mt: 0.5 }}
                                                         />
                                                         <Box sx={{ flex: 1 }}>
-                                                            <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
-                                                                {task.title}
-                                                            </Typography>
-                                                            <Typography variant="body2" color="text.secondary">
-                                                                {task.description}
-                                                            </Typography>
+                                                            {editingTask === task.id ? (
+                                                                <>
+                                                                    <TextField
+                                                                        value={editTitle}
+                                                                        onChange={(e) => setEditTitle(e.target.value)}
+                                                                        onKeyDown={async (e) => {
+                                                                            if (e.key === 'Enter') {
+                                                                                await updateTask.mutateAsync({
+                                                                                    id: task.id,
+                                                                                    title: editTitle,
+                                                                                    description: editDescription
+                                                                                });
+                                                                                setEditingTask(null);
+                                                                            }
+                                                                        }}
+                                                                        variant="outlined"
+                                                                        size="small"
+                                                                        fullWidth
+                                                                        sx={{ mb: 1 }}
+                                                                    />
+                                                                    <TextField
+                                                                        value={editDescription}
+                                                                        onChange={(e) => setEditDescription(e.target.value)}
+                                                                        onKeyDown={async (e) => {
+                                                                            if (e.key === 'Enter') {
+                                                                                await updateTask.mutateAsync({
+                                                                                    id: task.id,
+                                                                                    title: editTitle,
+                                                                                    description: editDescription
+                                                                                });
+                                                                                setEditingTask(null);
+                                                                            }
+                                                                        }}
+                                                                        variant="outlined"
+                                                                        size="small"
+                                                                        fullWidth
+                                                                        multiline
+                                                                    />
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <Typography variant="h6" component="div" sx={{ fontWeight: "bold", mb: 1 }}>
+                                                                        {task.title}
+                                                                    </Typography>
+                                                                    <Typography variant="body2" color="text.secondary">
+                                                                        {task.description}
+                                                                    </Typography>
+                                                                </>
+                                                            )}
                                                         </Box>
                                                         <IconButton
                                                             color="primary"
-                                                            onClick={() => console.log("Edit task:", task.id)}
+                                                            onClick={() => {
+                                                                console.log("Editing task:", task.id);
+                                                                setEditingTask(task.id);
+                                                                setEditTitle(task.title || "");
+                                                                setEditDescription(task.description || "");
+                                                            }}
                                                             sx={{ mt: 0.5 }}
                                                         >
                                                             <EditIcon />

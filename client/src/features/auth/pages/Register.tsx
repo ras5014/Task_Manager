@@ -1,6 +1,6 @@
 import { Box, Container, TextField, Button, Typography, Paper, Link, CircularProgress } from "@mui/material";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useRegister } from "../hooks/register.hook";
+import { useRegister } from "../hooks/useRegister";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
