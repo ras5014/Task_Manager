@@ -3,9 +3,10 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useLogin } from "../hooks/useLogin";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // Import the LoginFormInputs type from the shared schema
-import type { LoginFormInputs } from "../../../../../shared/schemas/auth.schema";
+import { LoginSchema, type LoginFormInputs } from "../../../../../shared/schemas/auth.schema";
 
 export default function Login() {
 
@@ -15,7 +16,9 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginFormInputs>();
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(LoginSchema)
+  });
 
   const { mutateAsync, isPending } = useLogin();
 

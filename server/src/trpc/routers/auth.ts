@@ -1,18 +1,18 @@
 import { TRPCError } from "@trpc/server";
 import { publicProcedure } from "../middlewares.ts";
 import { prisma } from "../../db/prisma.ts";
-import {
-  LoginSchema,
-  RegisterSchema,
-} from "../../../../shared/schemas/auth.schema.ts";
 import { signToken } from "../../utils/authHelpers.ts";
 import { handlePrismaError } from "../../utils/errorHandler.ts";
 import { t } from "../trpc.ts";
 import bcrypt from "bcrypt";
+import {
+  LoginSchema,
+  RegisterApiSchema,
+} from "../../../../shared/schemas/auth.schema.ts";
 
 export const authRouter = t.router({
   register: publicProcedure
-    .input(RegisterSchema)
+    .input(RegisterApiSchema)
     .mutation(async ({ input }) => {
       try {
         const { fullName, email, password } = input;

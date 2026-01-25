@@ -3,7 +3,8 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRegister } from "../hooks/useRegister";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import type { RegisterFormInputs } from "../../../../../shared/schemas/auth.schema";
+import { type RegisterFormInputs, RegisterSchema } from "../../../../../shared/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Register() {
 
@@ -13,7 +14,9 @@ export default function Register() {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<RegisterFormInputs>();
+    } = useForm<RegisterFormInputs>({
+        resolver: zodResolver(RegisterSchema)
+    });
 
     const { mutateAsync, isPending } = useRegister();
 
@@ -82,10 +85,11 @@ export default function Register() {
                             type="password"
                             variant="outlined"
                             fullWidth
-                            {...register("confirmPassword", { required: "Confirm Password is required" })}
+                            {...register("confirmPassword")}
                             error={!!errors.confirmPassword}
                             helperText={errors.confirmPassword ? errors.confirmPassword.message : ""}
                         />
+
 
                         <Button
                             disabled={isPending}
