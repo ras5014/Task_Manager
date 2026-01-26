@@ -1,4 +1,4 @@
-import { trpc } from "../../../utils/trpc";
+import { trpc } from "../../../shared/utils/trpc";
 
 export const useRegister = () => {
   return trpc.auth.register.useMutation({

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useCreateTask, useDeleteTask, useTasks, useUpdateTask } from "../hooks/tasks.hook";
+import { useCreateTask, useDeleteTask, useTasks, useUpdateTask } from "../hooks/useTasks";
 import toast from "react-hot-toast";
 import {
     Box,
